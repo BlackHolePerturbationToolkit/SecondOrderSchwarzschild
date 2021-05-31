@@ -30,4 +30,6 @@ cd ..
 echo "======= RetRet ======"
 cd d2R_RetRet/
 ../../../../SecondOrderRicci/Ricci ../../../h1/r0_${r0}/h1ret ../../../h1/r0_${r0}/h1ret 1000 $lmax
+../../../../SecondOrderRicci/Ricci_M ../../../h1/r0_${r0}/h1ret $lmax
+../../../../SecondOrderRicci/Ricci_S ../../../h1/r0_${r0}/h1ret $lmax
 cd ..
