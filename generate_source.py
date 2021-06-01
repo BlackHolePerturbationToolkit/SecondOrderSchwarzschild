@@ -4,6 +4,7 @@ import sys
 import os
 import subprocess
 import shutil
+import psutil
 
 def main():
     # Parse arguments
@@ -26,7 +27,8 @@ def main():
     d2Rdir = 'data/d2R/r0_'+r0
     os.makedirs(h1retdir)
     os.makedirs(evenstaticdir)
-    os.makedirs(griddir)
+    if not os.path.exists(griddir):
+        os.makedirs(griddir)
 
     # Create radial grid
     grid = griddir + '/radial_grid_r'+r0+'.h5'
@@ -34,7 +36,8 @@ def main():
     subprocess.run(['wolfram', '-run', mathcode])
 
     # Run h1Lorenz
-    subprocess.run(['mpirun', '-n', '2', './h1Lorenz/h1Lorenz', r0, lmaxret, grid, h1retdir])
+    cpus = str(psutil.cpu_count(logical=False))
+    subprocess.run(['mpirun', '-n', cpus, './h1Lorenz/h1Lorenz', r0, lmaxret, grid, h1retdir])
 
     # Run even static modes
     mathcode = 'r0=' + r0 + '; lminret = 2; lmaxret=' + lmaxret + '; gridFile="' + grid + '"; dataDir="' + evenstaticdir + '"; Get["FirstOrderMathematica/LorenzGaugeStatic/BarackLoustoEvenStaticModes.wl"]; Quit[];'
@@ -46,7 +49,7 @@ def main():
 
     # Run Ricci
     os.makedirs('data/d2R/r0_'+r0)
-    subprocess.run(['./coupling.sh', r0, lmax2])
+    subprocess.run(['OMP_NUM_THREADS='+cpus+' ./coupling.sh', r0, lmax2])
 
 if __name__== "__main__":
    main()
