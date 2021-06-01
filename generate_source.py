@@ -49,7 +49,7 @@ def main():
 
     # Run Ricci
     os.makedirs('data/d2R/r0_'+r0)
-    subprocess.run(['OMP_NUM_THREADS='+cpus+' ./coupling.sh', r0, lmax2])
+    subprocess.run(['./coupling.sh', r0, lmax2], env=dict(os.environ, OMP_NUM_THREADS=cpus))
 
 if __name__== "__main__":
    main()
