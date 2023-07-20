@@ -8,16 +8,10 @@ import psutil
 
 def main():
     # Parse arguments
-    if len(sys.argv) != 6:
+    if len(sys.argv) != 4:
         print('Usage:', sys.argv[0], '<r0> <lmaxret> <lmax2>')
         sys.exit(1)
     (r0, lmaxret, lmax2) = sys.argv[1:]
-    
-    # Check h1P file exists
-
-    if not os.path.isfile(h1P):
-        print('h1P file', h1P, 'does not exist.')
-        sys.exit(1)
     
     # Create output directories
     griddir = 'data/grids'
