@@ -9,9 +9,9 @@ import psutil
 def main():
     # Parse arguments
     if len(sys.argv) != 6:
-        print('Usage:', sys.argv[0], '<r0> <lmaxret> <lmaxS> <lmax2> <h1P>')
+        print('Usage:', sys.argv[0], '<r0> <lmaxret> <lmax2>')
         sys.exit(1)
-    (r0, lmaxret, lmaxS, lmax2, h1P) = sys.argv[1:]
+    (r0, lmaxret, lmax2) = sys.argv[1:]
     
     # Check h1P file exists
 
@@ -44,7 +44,7 @@ def main():
     subprocess.run(['wolfram', '-run', mathcode])
 
     # Process h1 data to generate ret, R and S fields
-    mathcode = 'r0=' + r0 + '; mmax = 10; lmax=' + lmaxS + '; lmaxret=' + lmaxret + '; \\[CapitalDelta]rmax=2; h1PFile="' + h1P + '"; h1dir="' + h1dir + '"; Get["Punctures/First Order/h1S-exact-order-eps2.wl"]; Quit[];'
+    mathcode = 'r0=' + r0 + '; lmaxret=' + lmaxret + '; h1dir="' + h1dir + '"; Get["Process-h1-data.wl"]; Quit[];'
     subprocess.run(['wolfram', '-run', mathcode])
 
     # Run Ricci
